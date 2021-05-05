@@ -3,39 +3,27 @@ const { Client, MessageEmbed } = require('discord.js');
 const client = new Client();
 const keys = require('./keys')
 const firebase = require('firebase')
-// const beerList = require('./beerList.js')
-
-// .on checks for different events
+let beerList = []
 client.on("ready", () => {
+    ref.on('value', (snapshot) => {
+        const data = snapshot.val()
+        for(const key in data){
+            beerList.push(data[key])
+        }
+    })
     console.log("All good here :)")
 })
 
-let config = {
+const firebaseConfig = {
     apiKey: keys.apiKey,
     authDomain: keys.authDomain,
     databaseURL: keys.databaseURL,
 };
-  firebase.initializeApp(config);
 
-  // Get a reference to the database service
-  let database = firebase.database();
-const beerList = [
-    {
-        name: "norrlandsguld",
-        id: "!norrlandsguld",
-        img: "https://product-cdn.systembolaget.se/productimages/805587/805587_400.png"
-    },
-    {
-        name: "carlsberg",
-        id: "!carlsberg",
-        img: "https://www.247kiosk.se/media/catalog/product/cache/12/thumbnail/330x/9df78eab33525d08d6e5fb8d27136e95/0/0/006394900_1602252893_2000084.jpg"
-    },
-    {
-        name: "The Only Carlsberg",
-        id: "!bestcarlsberg",
-        img: "https://product-cdn.systembolaget.se/productimages/507840/507840_400.png"
-    }
-]
+firebase.initializeApp(firebaseConfig);
+let db = firebase.database();
+let ref = db.ref('/beers')
+
 
 client.on("message", msg => {
     if(msg.content === "!beer") {
@@ -57,8 +45,6 @@ client.on("message", msg => {
             .setImage(beer.img)
             msg.channel.send(embed)
     }
-
-
 })
 
 client.login(keys.TOKEN)
