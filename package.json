@@ -2,10 +2,11 @@
   "name": "beerbot",
   "version": "1.0.0",
   "description": "discord beerBot",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon main.js"
+    "start": "nodemon main.js",
+    "api": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
